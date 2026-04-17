@@ -77,4 +77,3 @@ with col2:
 
 # 5. Footer
 st.markdown("<br><br><p style='text-align: center; color: #7f8c8d;'>An impact begins with a step • Move & Heal 2026</p>", unsafe_allow_html=True)
-    
