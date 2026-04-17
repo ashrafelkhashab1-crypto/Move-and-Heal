@@ -1,47 +1,63 @@
 import streamlit as st
 import google.generativeai as genai
+import os
 
-# إعداد مفتاح الذكاء الاصطناعي الخاص بكِ
-genai.configure(api_key="AQ.Ab8RN6IAYlYH6SdebaBLh-lIm5b8yom6GyegDdAwAxbhLbDaYg")
+# 1. المفتاح الخاص بكِ جاهز هنا
+GOOGLE_API_KEY = "AQ.Ab8RN6Ly8jP5TAt5mZkdXDZ9Xvx1QVKYJDBC_TnbX9yDDqZ2Vg"
+genai.configure(api_key=GOOGLE_API_KEY)
 
-# إعدادات الصفحة
-st.set_page_config(page_title="Move & Heal Wellness Center", page_icon="🏥")
+# 2. إعدادات الصفحة
+st.set_page_config(
+    page_title="Move & Heal Wellness Center",
+    page_icon="🏥",
+    layout="centered"
+)
 
-# تصميم الواجهة
+# 3. تصميم الـ CSS الفاخر (الألوان والخطوط)
 st.markdown("""
     <style>
-    .main {
-        background-color: #f0f2f6;
-    }
-    .title-text {
-        color: #2c3e50;
-        text-align: center;
-        font-family: 'Arial';
+    .main { background-color: #f8f9fa; }
+    .title-container { text-align: center; padding: 20px; }
+    .main-title { color: #2c3e50; font-size: 45px; font-weight: bold; margin-bottom: 0px; }
+    .sub-title { color: #16a085; font-size: 20px; letter-spacing: 2px; font-weight: bold; }
+    .response-area { 
+        padding: 20px; 
+        background-color: white; 
+        border-radius: 15px; 
+        border-left: 5px solid #16a085;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 20px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-st.markdown("<h1 class='title-text'>MOVE & HEAL</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='text-align: center; color: #16a085;'>WELLNESS CENTER</h3>", unsafe_allow_html=True)
+# 4. محتوى الصفحة
+# هنا الكود بيشوف: لو الصورة موجودة بيعرضها، لو مش موجودة بيعرض الاسم نص عادي
+if os.path.exists("logo.png"):
+    st.image("logo.png", width=250)
+else:
+    st.markdown('<div class="title-container"><h1 class="main-title">MOVE & HEAL</h1><p class="sub-title">WELLNESS CENTER</p></div>', unsafe_allow_html=True)
+
+st.info("👋 مرحباً بكِ في Move & Heal بالرحاب. اسألي أي سؤال عن العلاج الطبيعي والتأهيل.")
 
 st.write("---")
 
-# رسالة الترحيب
-st.info("Your journey from injury to the peak of performance starts here, at the heart of El Rehab City.")
-
-# الجزء التفاعلي
-st.subheader("إزاي نقدر نساعدك في رحلة تعافيك؟")
-user_input = st.text_input("اكتب سؤالك هنا:")
+user_input = st.text_input("إزاي نقدر نساعدك النهاردة؟", placeholder="اكتبي سؤالك هنا...")
 
 if user_input:
     try:
-        with st.spinner('جاري استشارة خبير الذكاء الاصطناعي...'):
+        with st.spinner('جاري استشارة خبير Move & Heal...'):
             model = genai.GenerativeModel("gemini-1.5-flash")
-            response = model.generate_content(user_input)
-            st.markdown("### الرد:")
-            st.write(response.text)
+            prompt = f"أنت خبير في التأهيل الرياضي بمركز Move & Heal. أجب بوضوح على: {user_input}"
+            response = model.generate_content(prompt)
+            
+            st.markdown('<div class="response-area">', unsafe_allow_html=True)
+            st.markdown("### الإجابة:")
+            st.success(response.text)
+            st.markdown('</div>', unsafe_allow_html=True)
     except Exception as e:
-        st.error(f"حصلت مشكلة بسيطة: {e}")
+        st.error(f"حدث خطأ: {e}")
 
 st.write("---")
-st.caption("📍 EL REHAB CITY, CAIRO")
+st.markdown("<p style='text-align: center; color: gray;'>📍 EL REHAB CITY, CAIRO</p>", unsafe_allow_html=True)
+ 
