@@ -3,7 +3,7 @@ import google.generativeai as genai
 import os
 
 # 1. المفتاح الخاص بكِ جاهز هنا
-GOOGLE_API_KEY = "AQ.Ab8RN6Ly8jP5TAt5mZkdXDZ9Xvx1QVKYJDBC_TnbX9yDDqZ2Vg"
+GOOGLE_API_KEY ="AQ.Ab8RN6Ly8jP5TAt5mZkdXDZ9Xvx1QVKYJDBC_TnbX9yDDqZ2Vg"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # 2. إعدادات الصفحة
